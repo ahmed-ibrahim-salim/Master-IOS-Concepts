@@ -4,17 +4,19 @@
 ## Plan
 Show all tasks ( with empty state )
 
+View Task details in modal sheet
+
 Create task with title, time, recurring (optional) defaults to once, description (optional), completed (optional) defaults to false.
 
 Edit task title, time, recurring, description
 
 Mark task as completed
 
-Delete task
+Delete task with a prompt (are you sure)
 
 ## Nice to have 
 
-local notification when it is time to do it
+Local notification when it is time to do it  (with actions)
 
 Swipe gesture actions
 
