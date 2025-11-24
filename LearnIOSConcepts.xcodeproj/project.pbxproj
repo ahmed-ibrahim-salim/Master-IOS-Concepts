@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FC5861E62E3E5CA8007B992B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FC5861E52E3E5CA8007B992B /* README.md */; };
+		FC8DC8F92ED43F140056A0E4 /* History.md in Resources */ = {isa = PBXBuildFile; fileRef = FC8DC8F82ED43F140056A0E4 /* History.md */; };
 		FCA676C02ED2FDFD00881F6F /* check-gaps.md in Resources */ = {isa = PBXBuildFile; fileRef = FCA676BF2ED2FDFD00881F6F /* check-gaps.md */; };
 		FCA676C22ED2FE0300881F6F /* Comprehensive Learn & Practice Plan.md in Resources */ = {isa = PBXBuildFile; fileRef = FCA676C12ED2FE0300881F6F /* Comprehensive Learn & Practice Plan.md */; };
 /* End PBXBuildFile section */
@@ -34,6 +35,7 @@
 		FC5861B52E3E5B46007B992B /* LearnIOSConceptsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnIOSConceptsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC5861BF2E3E5B46007B992B /* LearnIOSConceptsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnIOSConceptsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC5861E52E3E5CA8007B992B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FC8DC8F82ED43F140056A0E4 /* History.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = History.md; sourceTree = "<group>"; };
 		FCA676BF2ED2FDFD00881F6F /* check-gaps.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "check-gaps.md"; sourceTree = "<group>"; };
 		FCA676C12ED2FE0300881F6F /* Comprehensive Learn & Practice Plan.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Comprehensive Learn & Practice Plan.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +86,7 @@
 		FC58619C2E3E5B45007B992B = {
 			isa = PBXGroup;
 			children = (
+				FC8DC8F82ED43F140056A0E4 /* History.md */,
 				FCA676C12ED2FE0300881F6F /* Comprehensive Learn & Practice Plan.md */,
 				FCA676BF2ED2FDFD00881F6F /* check-gaps.md */,
 				FC5861E52E3E5CA8007B992B /* README.md */,
@@ -227,6 +230,7 @@
 				FCA676C22ED2FE0300881F6F /* Comprehensive Learn & Practice Plan.md in Resources */,
 				FCA676C02ED2FDFD00881F6F /* check-gaps.md in Resources */,
 				FC5861E62E3E5CA8007B992B /* README.md in Resources */,
+				FC8DC8F92ED43F140056A0E4 /* History.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
