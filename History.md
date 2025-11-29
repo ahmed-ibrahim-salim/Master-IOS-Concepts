@@ -4,7 +4,7 @@
 ## Plan
 Show all tasks ( with empty state )
 
-View Task details in modal sheet
+View Task details in a modal sheet
 
 Create task with title, time, recurring (optional) defaults to once, description (optional), completed (optional) defaults to false.
 

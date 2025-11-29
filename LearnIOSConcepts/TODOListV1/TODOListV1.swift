@@ -12,13 +12,18 @@ struct Task: Identifiable {
     let description: String? = nil
 }
 
-struct TODOListV1: View {
+class TODOListViewModel: ObservableObject {
     var tasks = [Task(title: "Task 1"), Task(title: "Task 2")]
+}
+
+struct TODOList: View {
+    @StateObject var viewModel: TODOListViewModel
+    
     var body: some View {
         VStack {
             Text("TODOLIST V1")
 
-            List(tasks) {
+            List($viewModel.tasks) {
                 Text($0.title)
             }
 
@@ -27,5 +32,5 @@ struct TODOListV1: View {
 }
 
 #Preview {
-    TODOListV1()
+    TODOList(viewModel: TODOListViewModel())
 }
