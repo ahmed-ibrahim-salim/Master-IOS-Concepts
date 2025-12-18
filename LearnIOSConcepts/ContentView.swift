@@ -3,6 +3,10 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        TODOList()
+        TodoList()
     }
+}
+
+#Preview {
+    ContentView()
 }
