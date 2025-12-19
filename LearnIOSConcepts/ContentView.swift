@@ -1,9 +1,8 @@
-
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        TodoList()
+        TodoList(viewModel: TodoListViewModel())
     }
 }
 

@@ -1,10 +1,3 @@
-//
-//  type.swift
-//  LearnIOSConcepts
-//
-//  Created by Ahmed Ibrahim on 18/12/2025.
-//
-
 import Foundation
 import CoreData
 

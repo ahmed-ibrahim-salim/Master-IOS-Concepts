@@ -1,19 +1,12 @@
-//
-//  LearnIOSConcepts
-//
-//  Created by Ahmed Ibrahim on 24/11/2025.
-//
-
-import MapKit
 import SwiftUI
 
 struct TodoList: View {
+    @StateObject var viewModel: TodoListViewModel
     // Sort by time
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \TaskItem.time, ascending: true)],
+        sortDescriptors: [],
         animation: .default)
-    private var tasks: FetchedResults<TaskItem>
-
+    var tasks: FetchedResults<TaskItem>
     @State private var showAddTask = false
 
     var body: some View {
@@ -25,8 +18,8 @@ struct TodoList: View {
                             Text("No tasks added yet")
                         }
                     } else {
-                        List(tasks) {
-                            Text($0.title)
+                        List(tasks.sorted()) {
+                            TaskListRow(task: $0)
                         }
                     }
                 }
@@ -42,4 +35,10 @@ struct TodoList: View {
             }
         }
     }
+}
+
+#Preview {
+    let context = PersistenceController.preview.container.viewContext
+    return TodoList(viewModel: TodoListViewModel())
+        .environment(\.managedObjectContext, context)
 }

@@ -1,10 +1,3 @@
-//
-//  TaskItem+CoreDataProperties.swift
-//  LearnIOSConcepts
-//
-//  Created by Ahmed Ibrahim on 18/12/2025.
-//
-
 import CoreData
 import Foundation
 
@@ -19,6 +12,12 @@ extension TaskItem: Identifiable {
     @NSManaged var recurring: String
     @NSManaged var taskDescription: String
     @NSManaged var completed: Bool
+}
+
+extension TaskItem: Comparable {
+    public static func < (lhs: TaskItem, rhs: TaskItem) -> Bool {
+        rhs.time!.timeIntervalSince1970 < lhs.time!.timeIntervalSince1970
+    }
 }
 
 extension TaskItem {

@@ -1,9 +1,3 @@
-//
-//  AddTaskView.swift
-//  LearnIOSConcepts
-//
-//  Created by Ahmed Ibrahim on 18/12/2025.
-//
 import SwiftUI
 
 struct AddTaskView: View {
@@ -27,7 +21,7 @@ struct AddTaskView: View {
 
                     TextEditor(text: $taskDesc)
                         .foregroundColor(.primary)
-                        .frame(minHeight: 100) // Set a minimum height
+                        .frame(minHeight: 100)
                 }
                 DatePicker("Due Time", selection: $dueDate, displayedComponents: [.date, .hourAndMinute])
             }
