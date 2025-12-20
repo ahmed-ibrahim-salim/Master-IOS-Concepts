@@ -1,7 +1,6 @@
 import SwiftUI
 
-
-struct AddTaskView: View {
+struct AddOrEditTaskView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
 

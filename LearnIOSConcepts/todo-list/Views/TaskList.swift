@@ -52,7 +52,7 @@ struct TaskList: View {
                 }
             }
             .sheet(isPresented: $isAddingOrEditingTask, onDismiss: {taskToEdit = nil}) {
-                AddTaskView(taskItemToEdit: taskToEdit)
+                AddOrEditTaskView(taskItemToEdit: taskToEdit)
             }
             .navigationTitle("Your tasks")
             .toolbar {
