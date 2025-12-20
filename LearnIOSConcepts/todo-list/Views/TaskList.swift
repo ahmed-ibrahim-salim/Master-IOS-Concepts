@@ -1,15 +1,14 @@
 import SwiftUI
 
-struct IndexSetMap: Identifiable {
-    let id = UUID().uuidString
-    var indices: IndexSet
-}
-
 struct TaskList: View {
     @StateObject var viewModel: TaskListViewModel
-    @State private var showAddTask = false
-    @State private var indicesToDelete: IndexSetMap?
-
+    
+    @State private var taskItemToDelete: TaskItem?
+    @State private var isDeleting: Bool = false
+    
+    @State private var isAddingOrEditingTask = false
+    @State private var taskToEdit: TaskItem?
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -20,38 +19,48 @@ struct TaskList: View {
                         }
                     } else {
                         List {
-                            ForEach(viewModel.tasks.sorted()) {
-                                TaskListRow(task: $0)
+                            ForEach(viewModel.tasks.sorted()) { taskItem in
+                                TaskListRow(task: taskItem)
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button(role: .destructive) {
+                                            self.taskItemToDelete = taskItem
+                                            isDeleting.toggle()
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button {
+                                            taskToEdit = taskItem
+                                            isAddingOrEditingTask.toggle()
+                                        } label: {
+                                            Label("Edit", systemImage: "square.and.pencil")
+                                        }
+                                        .tint(.orange)
+                                    }
                             }
-                            .onDelete { indicesToDelete = .init(indices: $0) }
                         }
                         .animation(.default, value: viewModel.tasks)
                     }
                 }
             }
-            .alert(item: $indicesToDelete) {
-                makeDeletionAlert(indices: $0)
+            .alert("Are you sure you wanna delete this task?", isPresented: $isDeleting, presenting: taskItemToDelete) { taskItem in
+                Button(role: .destructive) {
+                    withAnimation { viewModel.onDelete(taskItem: taskItem) }
+                } label: {
+                    Text("Delete")
+                }
             }
-            .sheet(isPresented: $showAddTask) {
-                AddTaskView()
+            .sheet(isPresented: $isAddingOrEditingTask, onDismiss: {taskToEdit = nil}) {
+                AddTaskView(taskItemToEdit: taskToEdit)
             }
             .navigationTitle("Your tasks")
             .toolbar {
                 Button("Add Task") {
-                    showAddTask.toggle()
+                    isAddingOrEditingTask.toggle()
                 }
             }
         }
-    }
-
-    // MARK: Helpers
-
-    func makeDeletionAlert(indices: IndexSetMap) -> Alert {
-        return Alert(title: Text("Are you sure you wanna delete this task?"),
-                     primaryButton: .destructive(Text("Delete"), action: {
-                         withAnimation { viewModel.onDelete(indexSet: indices.indices) }
-                     }),
-                     secondaryButton: .cancel { indicesToDelete = nil })
     }
 }
 

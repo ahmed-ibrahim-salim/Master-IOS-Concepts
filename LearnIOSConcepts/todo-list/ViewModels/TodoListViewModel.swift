@@ -14,7 +14,7 @@ class TaskListViewModel: ObservableObject {
         self.repo.initialFetch()
     }
     
-    func onDelete(indexSet: IndexSet) {
-        repo.onDelete(indexSet: indexSet)
+    func onDelete(taskItem: TaskItem) {
+        repo.onDelete(taskItem: taskItem)
     }
 }

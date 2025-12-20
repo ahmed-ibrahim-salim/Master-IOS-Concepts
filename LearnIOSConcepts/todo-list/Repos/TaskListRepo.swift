@@ -28,9 +28,8 @@ class TaskListRepo: NSObject {
         }
     }
     
-    func onDelete(indexSet: IndexSet) {
-        let objects = frc.fetchedObjects ?? []
-        indexSet.map { objects[$0] }.forEach { context.delete($0) }
+    func onDelete(taskItem: TaskItem) {
+        context.delete(taskItem)
         PersistenceController.shared.save()
     }
 }
