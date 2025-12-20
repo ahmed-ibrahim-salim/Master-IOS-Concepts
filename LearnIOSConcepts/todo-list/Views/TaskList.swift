@@ -19,7 +19,7 @@ struct TaskList: View {
                         }
                     } else {
                         List {
-                            ForEach(viewModel.tasks.sorted()) { taskItem in
+                            ForEach(viewModel.tasks) { taskItem in
                                 TaskListRow(task: taskItem)
                                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                         Button(role: .destructive) {

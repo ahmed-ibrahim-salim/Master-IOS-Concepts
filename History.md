@@ -10,9 +10,9 @@
 
 - [x] Delete task with a prompt (are you sure)
 
-- [ ] Edit task title, time, recurring, description
+- [x] Edit task title, time, description (recurring)
 
-- [ ] Create task with title, time, recurring (optional) defaults to once, description (optional), completed (optional) defaults to false.
+- [x] Create task with title, time, description (optional), completed (optional) defaults to false. (recurring (optional) defaults to once)
 
 - [ ] View Task details in a modal sheet
 
@@ -26,7 +26,7 @@ Swipe gesture actions
 
 ### Concepts to Master 📚
 
-Swift, SwiftUI, SwiftData
+Swift, SwiftUI, Core Data
 
 ### Architecture 🏛️
 
@@ -34,8 +34,4 @@ Basic MVVM and Protocol definition (DataStore protocol), Generic DataStore
 
 ### Validation & Error Handling ⚠️
 
-Form Validation, Basic Error handling
-
-### Animations & UX ✨
-
-Simple visibility transitions (e.g., fade out completed tasks).
+Form Validation, Basic Error handling.

@@ -10,7 +10,7 @@ class TaskListRepo: NSObject {
         self.context = context
         
         let request = TaskItem.fetchRequest()
-        request.sortDescriptors = []
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \TaskItem.time, ascending: false)]
         
         self.frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         

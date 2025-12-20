@@ -14,12 +14,6 @@ extension TaskItem: Identifiable {
     @NSManaged var completed: Bool
 }
 
-extension TaskItem: Comparable {
-    public static func < (lhs: TaskItem, rhs: TaskItem) -> Bool {
-        rhs.time!.timeIntervalSince1970 < lhs.time!.timeIntervalSince1970
-    }
-}
-
 extension TaskItem {
     var wrappedTime: Date {
         time ?? Date()
