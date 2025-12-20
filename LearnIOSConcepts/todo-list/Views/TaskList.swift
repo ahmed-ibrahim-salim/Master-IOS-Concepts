@@ -34,6 +34,7 @@ struct TaskList: View {
 
 #Preview {
     let context = PersistenceController.preview.container.viewContext
-    return TaskList(viewModel: TaskListViewModel(repo: TaskListRepo()))
+    let repo = TaskListRepo(context: context)
+    return TaskList(viewModel: TaskListViewModel(repo: repo))
         .environment(\.managedObjectContext, context)
 }

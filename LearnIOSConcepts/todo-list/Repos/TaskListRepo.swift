@@ -1,12 +1,14 @@
 import CoreData
 
 class TaskListRepo: NSObject {
-    private let context = PersistenceController.shared.container.viewContext
+    private let context: NSManagedObjectContext
     private let frc: NSFetchedResultsController<TaskItem>
     
     var onPerformFetch: (([TaskItem]) -> Void)?
     
-    override init() {
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        
         let request = TaskItem.fetchRequest()
         request.sortDescriptors = []
         
