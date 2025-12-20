@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct TodoList: View {
-    @StateObject var viewModel: TodoListViewModel
+struct TaskList: View {
+    @StateObject var viewModel: TaskListViewModel
     @State private var showAddTask = false
 
     var body: some View {
@@ -34,6 +34,6 @@ struct TodoList: View {
 
 #Preview {
     let context = PersistenceController.preview.container.viewContext
-    return TodoList(viewModel: TodoListViewModel())
+    return TaskList(viewModel: TaskListViewModel(repo: TaskListRepo()))
         .environment(\.managedObjectContext, context)
 }

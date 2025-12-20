@@ -1,35 +1,16 @@
 import CoreData
-import SwiftUI
 
-class TodoListViewModel: NSObject, ObservableObject {
+class TaskListViewModel: ObservableObject {
     @Published var tasks: [TaskItem] = []
-    
-    private let context = PersistenceController.shared.container.viewContext
-    private let frc: NSFetchedResultsController<TaskItem>
-    
-    override init() {
-        let request = TaskItem.fetchRequest()
-        request.sortDescriptors = []
-        
-        self.frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        
-        super.init()
-        
-        frc.delegate = self
-        
-        do {
-           try frc.performFetch()
-            tasks = frc.fetchedObjects ?? []
-        } catch {
-            print("Failed to fetch tasks \(error)")
-        }
-    }
-}
+    private let repo: TaskListRepo
 
-extension TodoListViewModel: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-        if let fetchedTask = controller.fetchedObjects as? [TaskItem] {
-            tasks = fetchedTask
+    init(repo: TaskListRepo) {
+        self.repo = repo
+        self.repo.onPerformFetch = { [weak self] tasks in
+            guard let self = self else { return }
+            self.tasks = tasks
         }
+
+        self.repo.initialFetch()
     }
 }
