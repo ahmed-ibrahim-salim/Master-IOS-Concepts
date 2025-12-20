@@ -27,6 +27,12 @@ class TaskListRepo: NSObject {
             print("Failed to fetch tasks \(error)")
         }
     }
+    
+    func onDelete(indexSet: IndexSet) {
+        let objects = frc.fetchedObjects ?? []
+        indexSet.map { objects[$0] }.forEach { context.delete($0) }
+        PersistenceController.shared.save()
+    }
 }
 
 extension TaskListRepo: NSFetchedResultsControllerDelegate {

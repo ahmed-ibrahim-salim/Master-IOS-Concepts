@@ -6,15 +6,15 @@
 
 - [x] Show task with name, time & completion state.
 
-- [ ] Mark task as completed
+- [x] Mark task as completed
+
+- [x] Delete task with a prompt (are you sure)
+
+- [ ] Edit task title, time, recurring, description
 
 - [ ] Create task with title, time, recurring (optional) defaults to once, description (optional), completed (optional) defaults to false.
 
 - [ ] View Task details in a modal sheet
-
-- [ ] Edit task title, time, recurring, description
-
-- [ ] Delete task with a prompt (are you sure)
 
 ## Nice to have
 
