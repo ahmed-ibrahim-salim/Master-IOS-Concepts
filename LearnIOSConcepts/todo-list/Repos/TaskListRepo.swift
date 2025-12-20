@@ -20,11 +20,17 @@ class TaskListRepo: NSObject {
     }
     
     func initialFetch() {
-        do {
-            try frc.performFetch()
-            onPerformFetch?(frc.fetchedObjects ?? [])
-        } catch {
-            print("Failed to fetch tasks \(error)")
+        context.perform { [weak self] in
+            do {
+                try self?.frc.performFetch()
+                let fetchedObjects = self?.frc.fetchedObjects ?? []
+                        
+                DispatchQueue.main.async {
+                    self?.onPerformFetch?(fetchedObjects)
+                }
+            } catch {
+                print("Failed to fetch tasks \(error)")
+            }
         }
     }
     
