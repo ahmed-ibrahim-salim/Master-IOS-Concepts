@@ -52,6 +52,7 @@ extension PersistenceController {
         // Create a few sample tasks so the preview isn't empty
         let sampleTask = TaskItem(context: viewContext)
         sampleTask.title = "Buy Groceries"
+        sampleTask.taskDescription = "Go to the nearest supermarket to buy tomatos & cumcumber"
         sampleTask.time = Date()
         sampleTask.completed = false
 

@@ -8,10 +8,16 @@ struct TaskListRow: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(task.title)
+                    .bold()
                     .strikethrough(task.completed)
                 HStack {
                     Text("At")
                     Text(task.wrappedTime, style: .time)
+                }
+                .foregroundStyle(.blue)
+                
+                if !task.taskDescription.isEmpty {
+                    Text(task.taskDescription)
                 }
             }
 
