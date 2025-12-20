@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TaskListRow: View {
     @ObservedObject var task: TaskItem
+    @State var showMarkAsCompleted = false
 
     var body: some View {
         HStack {
@@ -16,16 +17,24 @@ struct TaskListRow: View {
 
             Spacer()
             Button {
-                markTaskAsCompleted()
+                showMarkAsCompleted.toggle()
             } label: {
                 Image(systemName: task.completed ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 28))
             }
         }
+        .alert("Are you sure you wanna mark this as completed?", isPresented: $showMarkAsCompleted) {
+            Button("OK") {
+                markTaskAsCompleted()
+            }
+
+            Button("Cancel") {
+                showMarkAsCompleted.toggle()
+            }
+        }
     }
 
     func markTaskAsCompleted() {
-//    # TODO: add alert to prompt task completion.
         task.completed = true
 
         PersistenceController.shared.save()
