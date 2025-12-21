@@ -11,16 +11,17 @@ struct AddOrEditTaskView: View {
     init(taskItemToEdit: TaskItem?) {
         self.taskItemToEdit = taskItemToEdit
 
-        if let item = taskItemToEdit {
-            let initialData = TaskStateObject(
-                title: item.title,
-                taskDesc: item.taskDescription,
-                dueDate: item.wrappedTime
-            )
-            _taskObject = State(initialValue: initialData)
-        } else {
+        // Early exit
+        guard let item = taskItemToEdit else {
             _taskObject = State(initialValue: .init())
+            return
         }
+
+        _taskObject = State(initialValue: TaskStateObject(
+            title: item.title,
+            taskDesc: item.taskDescription,
+            dueDate: item.wrappedTime
+        ))
     }
 
     var body: some View {
