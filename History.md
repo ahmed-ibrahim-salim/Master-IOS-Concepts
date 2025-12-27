@@ -1,35 +1,37 @@
-
 # Plan To-Do List App
 
 ## Plan
-Show all tasks ( with empty state )
 
-View Task details in modal sheet
+- [x] Show all tasks ( with empty state )
 
-Create task with title, time, recurring (optional) defaults to once, description (optional), completed (optional) defaults to false.
+- [x] Show task with name, time & completion state.
 
-Edit task title, time, recurring, description
+- [x] Mark task as completed
 
-Mark task as completed
+- [x] Delete task with a prompt (are you sure)
 
-Delete task with a prompt (are you sure)
+- [x] Edit task title, time, description (recurring)
 
-## Nice to have 
+- [x] Create task with title, time, description (optional), completed (optional) defaults to false. (recurring (optional) defaults to once)
 
-Local notification when it is time to do it  (with actions)
+- [ ] View Task details in a modal sheet
+
+## Nice to have
+
+Local notification when it is time to do it (with actions)
 
 Swipe gesture actions
 
 ## Implementation
 
 ### Concepts to Master 📚
-Swift, SwiftUI, SwiftData
+
+Swift, SwiftUI, Core Data
 
 ### Architecture 🏛️
+
 Basic MVVM and Protocol definition (DataStore protocol), Generic DataStore
 
 ### Validation & Error Handling ⚠️
-Form Validation, Basic Error handling
 
-### Animations & UX ✨
-Simple visibility transitions (e.g., fade out completed tasks).
+Form Validation, Basic Error handling.
