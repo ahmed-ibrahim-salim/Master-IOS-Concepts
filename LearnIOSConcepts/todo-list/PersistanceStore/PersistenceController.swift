@@ -23,13 +23,12 @@ struct PersistenceController {
         }
     }
 
-    func save() {
+    func save() throws {
         if container.viewContext.hasChanges {
             do {
                 try container.viewContext.save()
             } catch {
-                let nsError = error as NSError
-                print("Error saving context: \(nsError)")
+                throw error
             }
         }
     }

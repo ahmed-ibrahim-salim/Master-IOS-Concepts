@@ -1,49 +1,96 @@
 import CoreData
 
-class TaskListRepo: NSObject {
-    private let context: NSManagedObjectContext
-    private let frc: NSFetchedResultsController<TaskItem>
-    
-    var onPerformFetch: (([TaskItem]) -> Void)?
-    
-    init(context: NSManagedObjectContext) {
-        self.context = context
-        
-        let request = TaskItem.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \TaskItem.time, ascending: false)]
-        
-        self.frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        
-        super.init()
-        
-        frc.delegate = self
+protocol TaskListRepoProtocol {
+    func taskStream() -> AsyncStream<[TaskItem]>
+    func onDelete(taskItem: TaskItem) async throws
+    func onMarkAsCompleted(taskItem: TaskItem) async throws
+}
+
+final class TaskListRepo: TaskListRepoProtocol {
+    private var continuation: AsyncStream<[TaskItem]>.Continuation?
+    private let localDataSource: FetchableDataSource
+    private let remoteDataSource: FetchableDataSource
+
+    init(localDataSource: FetchableDataSource, remoteDataSource: FetchableDataSource) {
+        self.localDataSource = localDataSource
+        self.remoteDataSource = remoteDataSource
     }
-    
-    func initialFetch() {
-        context.perform { [weak self] in
+
+    func taskStream() -> AsyncStream<[TaskItem]> {
+        stopUpdates()
+
+        return AsyncStream { continuation in
+            // Save the continuation
+            self.continuation = continuation
+
             do {
-                try self?.frc.performFetch()
-                let fetchedObjects = self?.frc.fetchedObjects ?? []
-                        
-                DispatchQueue.main.async {
-                    self?.onPerformFetch?(fetchedObjects)
-                }
+                try fetchTasks()
             } catch {
-                print("Failed to fetch tasks \(error)")
+                continuation.finish()
+            }
+
+            // Handle Cleanup
+            continuation.onTermination = { @Sendable _ in
+                self.stopUpdates()
             }
         }
     }
-    
-    func onDelete(taskItem: TaskItem) {
-        context.delete(taskItem)
-        PersistenceController.shared.save()
-    }
-}
 
-extension TaskListRepo: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-        if let fetchedTask = controller.fetchedObjects as? [TaskItem] {
-            onPerformFetch?(fetchedTask)
+    private func fetchTasks() throws {
+        do {
+            let data = try localDataSource.fetchTasks()
+            continuation?.yield(data)
+        } catch {
+            throw error
+        }
+
+        Task {
+            do {
+                let result = try remoteDataSource.fetchTasks()
+                continuation?.yield(result)
+            } catch {
+                throw error
+            }
+        }
+    }
+
+    private func stopUpdates() {
+        continuation?.finish()
+        continuation = nil
+        
+        remoteDataSource.stopUpdates()
+        localDataSource.stopUpdates()
+    }
+
+    func onDelete(taskItem: TaskItem) async throws {
+        do {
+            try await localDataSource.onDelete(taskItem: taskItem)
+        } catch {
+            throw error
+        }
+
+        Task {
+            do {
+                try await remoteDataSource.onDelete(taskItem: taskItem)
+            } catch {
+                throw error
+            }
+        }
+    }
+
+    func onMarkAsCompleted(taskItem: TaskItem) async throws {
+        do {
+            try await localDataSource.onMarkAsCompleted(taskItem: taskItem)
+        } catch {
+            throw error
+        }
+
+        Task {
+            do {
+                try await remoteDataSource.onMarkAsCompleted(taskItem: taskItem)
+            } catch {
+                throw error
+            }
         }
     }
 }
