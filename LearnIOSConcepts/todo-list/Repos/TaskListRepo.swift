@@ -8,8 +8,8 @@ protocol TaskListRepoProtocol {
 
 final class TaskListRepo: TaskListRepoProtocol {
     private var continuation: AsyncStream<[TaskItem]>.Continuation?
-    private let localDataSource: FetchableDataSource
-    private let remoteDataSource: FetchableDataSource
+    private var localDataSource: FetchableDataSource
+    private var remoteDataSource: FetchableDataSource
 
     init(localDataSource: FetchableDataSource, remoteDataSource: FetchableDataSource) {
         self.localDataSource = localDataSource
@@ -22,7 +22,11 @@ final class TaskListRepo: TaskListRepoProtocol {
         return AsyncStream { continuation in
             // Save the continuation
             self.continuation = continuation
-
+            
+            self.localDataSource.onUpdate = { [weak self] tasks in
+                self?.continuation?.yield(tasks)
+            }
+            
             do {
                 try fetchTasks()
             } catch {
@@ -43,23 +47,11 @@ final class TaskListRepo: TaskListRepoProtocol {
         } catch {
             throw error
         }
-
-        Task {
-            do {
-                let result = try remoteDataSource.fetchTasks()
-                continuation?.yield(result)
-            } catch {
-                throw error
-            }
-        }
     }
 
     private func stopUpdates() {
         continuation?.finish()
         continuation = nil
-        
-        remoteDataSource.stopUpdates()
-        localDataSource.stopUpdates()
     }
 
     func onDelete(taskItem: TaskItem) async throws {

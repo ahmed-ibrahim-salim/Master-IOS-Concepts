@@ -1,16 +1,19 @@
 import CoreData
 
 protocol FetchableDataSource {
+    var onUpdate: (([TaskItem]) -> Void)? { get set }
+    
     func fetchTasks() throws -> [TaskItem]
 
     func onDelete(taskItem: TaskItem) async throws
 
     func onMarkAsCompleted(taskItem: TaskItem) async throws
-    
-    func stopUpdates()
 }
 
 class TaskListRemoteDataSource: FetchableDataSource {
+    
+    var onUpdate: (([TaskItem]) -> Void)?
+    
     func fetchTasks() -> [TaskItem] {
         return []
     }
@@ -19,13 +22,13 @@ class TaskListRemoteDataSource: FetchableDataSource {
     
     func onMarkAsCompleted(taskItem: TaskItem) throws {}
     
-    func stopUpdates() {}
 }
 
 class TaskListLocalDataSource: NSObject, FetchableDataSource {
     private let context: NSManagedObjectContext
     private let frc: NSFetchedResultsController<TaskItem>
     private var isInitial = true
+    var onUpdate: (([TaskItem]) -> Void)?
     
     init(context: NSManagedObjectContext) {
         self.context = context
@@ -48,10 +51,6 @@ class TaskListLocalDataSource: NSObject, FetchableDataSource {
         }
         
         return []
-    }
-    
-    func stopUpdates() {
-        frc.delegate = nil
     }
     
     private func initialFetch() throws -> [TaskItem] {
@@ -81,7 +80,7 @@ class TaskListLocalDataSource: NSObject, FetchableDataSource {
 extension TaskListLocalDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
         if let fetchedTasks = controller.fetchedObjects as? [TaskItem] {
-//            continuation?.yield(fetchedTasks)
+            onUpdate?(fetchedTasks)
         }
     }
 }
